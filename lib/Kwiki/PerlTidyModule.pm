@@ -1,7 +1,7 @@
 package Kwiki::PerlTidyModule;
 use Kwiki::Plugin -Base;
 use Kwiki::Installer -Base;
-our $VERSION = '0.11';
+our $VERSION = '0.12';
 
 const class_id => 'perl_tidy_module';
 const css_file => 'perl_tidy_module.css';
@@ -33,7 +33,7 @@ sub to_html {
 
 sub file_from_class_id {
     my $class_id = shift;
-    my $object = eval {$self->hub->load_class($class_id)}
+    my $object = eval {$self->hub->$class_id}
       or return;
     $self->file_from_module(ref($object));
 }
@@ -52,7 +52,7 @@ sub tidy {
     my $source = io($file_name)->slurp;
     return $self->escape_html($source)
       unless $file_name =~ /\.(pl|pm|cgi|t|dd)$/;
-    my $html = $self->hub->load_class('cache')->process(
+    my $html = $self->hub->cache->process(
         sub { $self->cache_this($source) }, 'perl_tidy_module', $source
     );
     $html =~ s/^<pre>\s*(.*)\s*<\/pre>\s*\z/$1/s;
