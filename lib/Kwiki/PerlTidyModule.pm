@@ -1,16 +1,14 @@
 package Kwiki::PerlTidyModule;
-use strict;
-use warnings;
-use Kwiki::Plugin '-Base';
-use Kwiki::Installer '-Base';
-our $VERSION = '0.10';
+use Kwiki::Plugin -Base;
+use Kwiki::Installer -Base;
+our $VERSION = '0.11';
 
 const class_id => 'perl_tidy_module';
-const class_title => 'Perl::Tidy Module';
 const css_file => 'perl_tidy_module.css';
 
 sub register {
     my $registry = shift;
+    $registry->add(prerequisite => 'cache');
     $registry->add(wafl => perl_tidy_module => 'Kwiki::PerlTidyModule::Wafl');
 }
 
@@ -69,13 +67,11 @@ sub cache_this {
         Perl::Tidy::perltidy(
             source      => \$source,
             destination => \$result,
-            argv        => [qw( -q -html -pre )],
+            argv        => [qw( -q -html -pre -npro )],
         );
     };
     $@ ? $source : $result;
 }
-
-1;
 
 package Kwiki::PerlTidyModule;
 __DATA__

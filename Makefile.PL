@@ -8,8 +8,8 @@ version_from('lib/Kwiki/PerlTidyModule.pm');
 
 requires(qw(
     perl 5.6.1
-    Kwiki 0.31
-    Kwiki::Cache 0.10
+    Kwiki 0.34
+    Kwiki::Cache 0.11
     Perl::Tidy 20031021
 ));
 
